@@ -1,11 +1,7 @@
-import type { NextConfig } from "next";
+﻿import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  devIndicators: {
-    appIsrStatus: false,
-  },
-  
-  // Configure webpack to ignore the external folder
+// Configure webpack to ignore the external folder
   webpack: (config: any) => {
     config.watchOptions = {
       ...config.watchOptions,
@@ -16,3 +12,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
