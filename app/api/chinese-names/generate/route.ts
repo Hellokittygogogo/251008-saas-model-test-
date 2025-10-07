@@ -590,10 +590,11 @@ Requirements:
           explanation: 'Symbolizes virtue and excellence'
         }] : []),
       ],
-      meaning: A  Chinese name with positive meanings and cultural significance,
-      culturalNotes: Traditional Chinese name reflecting  characteristics with auspicious meanings,
+      meaning: "A Chinese name with positive meanings and cultural significance",
+      culturalNotes: "Traditional Chinese name reflecting characteristics with auspicious meanings",
       personalityMatch: 'This fallback name maintains cultural appropriateness and positive connotations suitable for the specified preferences',
       style: planType === '4' ? 'Premium' : 'Standard'
     };
   }
+
 

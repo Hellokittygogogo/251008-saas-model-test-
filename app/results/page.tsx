@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -34,7 +34,7 @@ interface FormData {
 
 interface SessionData {
   names: NameData[];
-  formData: FormData;
+  formData: FormData | null;
   batch: any;
   generationRound: number;
   totalGenerationRounds: number;

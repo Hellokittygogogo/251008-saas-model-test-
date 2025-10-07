@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -152,7 +152,7 @@ export default function NameGeneratorForm({ onGenerate, isGenerating, hasTriedFr
                   </>
                 ) : (
                   <>
-                    <span>🎁 Free Trial Available</span>
+                    <span>馃巵 Free Trial Available</span>
                     <span className="text-primary">No registration required!</span>
                   </>
                 )}
@@ -254,7 +254,7 @@ export default function NameGeneratorForm({ onGenerate, isGenerating, hasTriedFr
             {/* Submit Button */}
             <Button 
               type="submit" 
-              disabled={isGenerating || (user && !hasEnoughCredits)}
+              disabled={isGenerating || (!!user && !hasEnoughCredits)}
               className="w-full h-14 text-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200"
             >
               {isGenerating ? (
@@ -275,7 +275,7 @@ export default function NameGeneratorForm({ onGenerate, isGenerating, hasTriedFr
                 "Sign Up for More"
               ) : (
                 <>
-                  🎁 Try Free Generation
+                  馃巵 Try Free Generation
                   <span className="ml-2 text-base opacity-80">(No Login Required)</span>
                 </>
               )}
