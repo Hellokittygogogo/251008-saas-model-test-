@@ -543,61 +543,57 @@ Requirements:
 }
 
 // Helper function to generate fallback names
-function generateFallbackName(index: number, surname: string, gender: string, planType: string): NameData {
-  const fallbackGivenNames = {
-    male: ['蹇楁槑', '寤哄崕', '浼熷己', '淇婃澃', '鏂囨槉', '闆呮槅'],
-    female: ['闆呮枃', '缇庝附', '鎱ф晱', '闆ㄦ櫞', '璇楁兜', '濠夊'],
-    other: ['鏄庢櫤', '缇庡ソ', '鍜岃皭', '鍏夋槑', '甯屾湜', '鏈潵']
-  };
+  // Helper function to generate fallback names
+  function generateFallbackName(index: number, surname: string, gender: string, planType: string): NameData {
+    const fallbackGivenNames = {
+      male: ['志明', '建华', '伟强', '俊杰', '文昊', '雅昆'],
+      female: ['雅文', '美丽', '慧敏', '雨晴', '诗涵', '婉如'],
+      other: ['明智', '美好', '和谐', '光明', '希望', '未来']
+    };
 
-  const genderKey = gender === 'male' ? 'male' : gender === 'female' ? 'female' : 'other';
-  const givenNames = fallbackGivenNames[genderKey];
-  const selectedGivenName = givenNames[index % givenNames.length];
+    const genderKey = gender === 'male' ? 'male' : gender === 'female' ? 'female' : 'other';
+    const givenNames = fallbackGivenNames[genderKey];
+    const selectedGivenName = givenNames[index % givenNames.length];
 
-  const surnameMap: { [key: string]: string } = {
-  "赵": "Zhào","钱": "Qián","孙": "Sūn","李": "Lǐ","周": "Zhōu","吴": "Wú","郑": "Zhèng","王": "Wáng","冯": "Féng","陈": "Chén",
-  "褚": "Chǔ","卫": "Wèi","蒋": "Jiǎng","沈": "Shěn","韩": "Hán","杨": "Yáng","朱": "Zhū","秦": "Qín","尤": "Yóu","许": "Xǔ",
-  "何": "Hé","吕": "Lǚ","施": "Shī","张": "Zhāng","孔": "Kǒng","曹": "Cáo","严": "Yán","华": "Huá","金": "Jīn","魏": "Wèi"
-};
+    // Basic pinyin helpers (avoid per-character ternaries)
+    const givenPinyinMap: { [key: string]: string } = {
+      '志明': 'Zhìmíng', '建华': 'Jiànhuá', '伟强': 'Wěiqiáng',
+      '雅文': 'Yǎwén', '美丽': 'Měilì', '慧敏': 'Huìmǐn',
+      '明智': 'Míngzhì', '美好': 'Měihǎo', '和谐': 'Héxié'
+    };
 
-  const givenPinyinMap: { [key: string]: string } = {
-    '蹇楁槑': 'Zh矛m铆ng', '寤哄崕': 'Ji脿nhu谩', '浼熷己': 'W臎iqi谩ng',
-    '闆呮枃': 'Y菐w茅n', '缇庝附': 'M臎il矛', '鎱ф晱': 'Hu矛m菒n',
-    '鏄庢櫤': 'M铆ngzh矛', '缇庡ソ': 'M臎ih菐o', '鍜岃皭': 'H茅xi茅'
-  };
+    const chinese = `${surname}${selectedGivenName}`;
+    const surnameChar = surname;
+    const givenChar1 = selectedGivenName[0];
+    const givenChar2 = selectedGivenName[1] || '';
 
-  const chinese = `${surname}${selectedGivenName}`;
-  const surnameChar = surname;
-  const givenChar1 = selectedGivenName[0];
-  const givenChar2 = selectedGivenName[1] || '';
-
-  return {
-    chinese,
-    pinyin: `${surnameMap[surname] || 'W谩ng'} ${givenPinyinMap[selectedGivenName] || 'M铆ng'}`,
-    characters: [
-      {
-        character: surnameChar,
-        pinyin: surnameMap[surname] || 'W谩ng',
-        meaning: "Family surname",
-        explanation: "A traditional Chinese family name with historical significance."
-      },
-      {
-        character: givenChar1,
-        pinyin: givenChar1 === '蹇? ? 'Zh矛' : givenChar1 === '缇? ? 'M臎i' : 'M铆ng',
-        meaning: givenChar1 === '蹇? ? 'Ambition' : givenChar1 === '缇? ? 'Beautiful' : 'Bright',
-        explanation: `Represents ${givenChar1 === '蹇? ? 'ambition and determination' : givenChar1 === '缇? ? 'beauty and goodness' : 'brightness and wisdom'}`
-      },
-      ...(givenChar2 ? [{
-        character: givenChar2,
-        pinyin: givenChar2 === '鏄? ? 'M铆ng' : givenChar2 === '涓? ? 'L矛' : 'H菐o',
-        meaning: givenChar2 === '鏄? ? 'Bright' : givenChar2 === '涓? ? 'Beautiful' : 'Good',
-        explanation: `Symbolizes ${givenChar2 === '鏄? ? 'intelligence and clarity' : givenChar2 === '涓? ? 'beauty and grace' : 'virtue and excellence'}`
-      }] : [])
-    ],
-    meaning: `A ${planType === '4' ? 'premium' : 'standard'} Chinese name with positive meanings and cultural significance`,
-    culturalNotes: `Traditional Chinese name reflecting ${gender} characteristics with auspicious meanings`,
-    personalityMatch: `This fallback name maintains cultural appropriateness and positive connotations suitable for the specified preferences`,
-    style: planType === '4' ? 'Premium' : 'Standard'
-  };
-}
+    return {
+      chinese,
+      pinyin: 'Xing ' + (givenPinyinMap[selectedGivenName] || 'Míng'),
+      characters: [
+        {
+          character: surnameChar,
+          pinyin: 'Xing',
+          meaning: 'Family surname',
+          explanation: 'A traditional Chinese family name with historical significance.'
+        },
+        ...(givenChar1 ? [{
+          character: givenChar1,
+          pinyin: (givenPinyinMap[selectedGivenName] || 'Míng').split(' ')[0] || 'Míng',
+          meaning: 'Positive meaning',
+          explanation: 'Represents positive personal qualities'
+        }] : []),
+        ...(givenChar2 ? [{
+          character: givenChar2,
+          pinyin: (givenPinyinMap[selectedGivenName] || 'Míng').split(' ')[1] || 'Míng',
+          meaning: 'Auspicious meaning',
+          explanation: 'Symbolizes virtue and excellence'
+        }] : []),
+      ],
+      meaning: A  Chinese name with positive meanings and cultural significance,
+      culturalNotes: Traditional Chinese name reflecting  characteristics with auspicious meanings,
+      personalityMatch: 'This fallback name maintains cultural appropriateness and positive connotations suitable for the specified preferences',
+      style: planType === '4' ? 'Premium' : 'Standard'
+    };
+  }
 

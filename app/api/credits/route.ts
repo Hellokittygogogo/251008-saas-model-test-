@@ -39,7 +39,8 @@ export async function GET() {
       );
     }
 
-    // 濡傛灉鐢ㄦ埛娌℃湁customer璁板綍锛屽垱寤轰竴涓粯璁よ褰?    if (!customer) {
+    // note: comment removed for build safety`r`n
+    if(!customer) {
       const { data: newCustomer, error: createError } = await supabase
         .from('customers')
         .insert({
@@ -73,7 +74,8 @@ export async function GET() {
         );
       }
 
-      // 璁板綍鍒濆绉垎璧犻€?      await supabase
+      // Record initial credits
+        await supabase
         .from('credits_history')
         .insert({
           customer_id: newCustomer.id,
@@ -95,7 +97,8 @@ export async function GET() {
       });
     }
 
-    // 杩斿洖鍏煎鐨勬牸寮?    return NextResponse.json({ 
+    // note: comment removed for build safety`r`n
+    return NextResponse.json({ 
       credits: {
         id: customer.id,
         user_id: customer.user_id,
@@ -152,8 +155,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // 妫€鏌ョН鍒嗘槸鍚﹁冻澶?    if (customer.credits < amount) {
-      return NextResponse.json(
+    // note: comment removed for build safety`r`n
+    return NextResponse.json(
         { error: 'Insufficient credits' },
         { status: 400 }
       );
@@ -198,7 +201,8 @@ export async function POST(request: Request) {
       console.error('Error recording credit transaction:', historyError);
       // 涓嶅奖鍝嶄富瑕佹祦绋嬶紝鍙褰曢敊璇?    }
 
-    // 杩斿洖鍏煎鐨勬牸寮?    return NextResponse.json({ 
+    // note: comment removed for build safety`r`n
+    return NextResponse.json({ 
       credits: {
         id: updatedCustomer.id,
         user_id: updatedCustomer.user_id,
@@ -217,4 +221,8 @@ export async function POST(request: Request) {
     );
   }
 }
+
+
+
+
 

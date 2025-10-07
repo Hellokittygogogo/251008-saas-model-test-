@@ -32,7 +32,8 @@ export async function POST(request: Request) {
   try {
     const supabase = await createClient();
     
-    // 妫€鏌ョ敤鎴疯璇?    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    // Check user auth
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
     
     if (authError || !user) {
       return NextResponse.json(
@@ -57,7 +58,8 @@ export async function POST(request: Request) {
       englishName: userData.englishName
     });
 
-    // 妫€鏌ョ敤鎴风Н鍒?    const { data: customer, error: fetchError } = await supabase
+    // Check user credits
+      const { data: customer, error: fetchError } = await supabase
       .from('customers')
       .select('*')
       .eq('user_id', user.id)
@@ -201,4 +203,7 @@ export async function POST(request: Request) {
     );
   }
 }
+
+
+
 
