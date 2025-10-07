@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     // Security: All sensitive information (appid, token) is stored in environment variables
     // and never logged or exposed in responses

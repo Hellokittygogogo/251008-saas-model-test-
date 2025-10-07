@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import puppeteer from 'puppeteer';
 import { generateCertificateHTML } from '@/utils/pdf-templates/name-certificate';
@@ -26,14 +26,13 @@ interface RequestBody {
   };
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   console.log('=== PDF Generation API Called ===');
   
   try {
     const supabase = await createClient();
     
-    // 检查用户认证
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    // 妫€鏌ョ敤鎴疯璇?    const { data: { user }, error: authError } = await supabase.auth.getUser();
     
     if (authError || !user) {
       return NextResponse.json(
@@ -58,8 +57,7 @@ export async function POST(request: NextRequest) {
       englishName: userData.englishName
     });
 
-    // 检查用户积分
-    const { data: customer, error: fetchError } = await supabase
+    // 妫€鏌ョ敤鎴风Н鍒?    const { data: customer, error: fetchError } = await supabase
       .from('customers')
       .select('*')
       .eq('user_id', user.id)
@@ -88,10 +86,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 生成HTML内容
+    // 鐢熸垚HTML鍐呭
     const htmlContent = generateCertificateHTML(nameData, userData);
     
-    // 使用Puppeteer生成PDF
+    // 浣跨敤Puppeteer鐢熸垚PDF
     let browser;
     try {
       console.log('Launching Puppeteer...');
@@ -111,13 +109,13 @@ export async function POST(request: NextRequest) {
 
       const page = await browser.newPage();
       
-      // 设置页面内容
+      // 璁剧疆椤甸潰鍐呭
       await page.setContent(htmlContent, {
         waitUntil: 'networkidle0',
         timeout: 30000
       });
 
-      // 生成PDF
+      // 鐢熸垚PDF
       console.log('Generating PDF...');
       const pdfBuffer = await page.pdf({
         format: 'A4',
@@ -133,7 +131,7 @@ export async function POST(request: NextRequest) {
       await browser.close();
       console.log('PDF generated successfully');
 
-      // 扣除积分
+      // 鎵ｉ櫎绉垎
       const newCredits = customer.credits - 1;
       const { error: updateError } = await supabase
         .from('customers')
@@ -145,10 +143,9 @@ export async function POST(request: NextRequest) {
 
       if (updateError) {
         console.error('Failed to deduct credits:', updateError);
-        // 注意：PDF已生成，但积分扣除失败
-        // 在生产环境中可能需要回滚或记录这种情况
+        // 娉ㄦ剰锛歅DF宸茬敓鎴愶紝浣嗙Н鍒嗘墸闄ゅけ璐?        // 鍦ㄧ敓浜х幆澧冧腑鍙兘闇€瑕佸洖婊氭垨璁板綍杩欑鎯呭喌
       } else {
-        // 记录积分消费历史
+        // 璁板綍绉垎娑堣垂鍘嗗彶
         await supabase
           .from('credits_history')
           .insert({
@@ -173,7 +170,7 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      // 设置响应头并返回PDF
+      // 璁剧疆鍝嶅簲澶村苟杩斿洖PDF
       const fileName = `${nameData.chinese}_certificate.pdf`;
       
       return new NextResponse(pdfBuffer, {

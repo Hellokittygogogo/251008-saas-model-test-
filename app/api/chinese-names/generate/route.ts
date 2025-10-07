@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import OpenAI from 'openai';
 
@@ -42,7 +42,7 @@ interface NameData {
   style: string;
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   console.log('=== Chinese Names Generate API Called ===');
   try {
     const supabase = await createClient();
@@ -179,9 +179,9 @@ export async function POST(request: NextRequest) {
 
     // Common Chinese surnames
     const commonSurnames = [
-      '王', '李', '张', '刘', '陈', '杨', '赵', '黄', '周', '吴',
-      '徐', '孙', '胡', '朱', '高', '林', '何', '郭', '马', '罗',
-      '梁', '宋', '郑', '谢', '韩', '唐', '冯', '于', '董', '萧'
+      '鐜?, '鏉?, '寮?, '鍒?, '闄?, '鏉?, '璧?, '榛?, '鍛?, '鍚?,
+      '寰?, '瀛?, '鑳?, '鏈?, '楂?, '鏋?, '浣?, '閮?, '椹?, '缃?,
+      '姊?, '瀹?, '閮?, '璋?, '闊?, '鍞?, '鍐?, '浜?, '钁?, '钀?
     ];
 
     const generatedNames = new Set<string>();
@@ -238,7 +238,7 @@ STANDARD REQUIREMENTS:
 
 CREATIVITY REQUIREMENTS:
 - Use uncommon but beautiful Chinese characters
-- Avoid typical combinations like 雨晴, 志明, 雅文, 建华, 小明, 美丽, 伟强 etc.
+- Avoid typical combinations like 闆ㄦ櫞, 蹇楁槑, 闆呮枃, 寤哄崕, 灏忔槑, 缇庝附, 浼熷己 etc.
 - Be innovative with character selection
 - Consider rare but meaningful characters from different radical families
 - Create unique phonetic combinations
@@ -246,18 +246,18 @@ CREATIVITY REQUIREMENTS:
 
 Output only this JSON structure:
 {
-  "chinese": "姓名",
-  "pinyin": "Xìngmíng", 
+  "chinese": "濮撳悕",
+  "pinyin": "X矛ngm铆ng", 
   "characters": [
     {
-      "character": "姓",
-      "pinyin": "Xìng",
+      "character": "濮?,
+      "pinyin": "X矛ng",
       "meaning": "Surname meaning",
       "explanation": "Brief explanation"
     },
     {
-      "character": "名",
-      "pinyin": "míng", 
+      "character": "鍚?,
+      "pinyin": "m铆ng", 
       "meaning": "Given name meaning",
       "explanation": "Brief explanation"
     }
@@ -556,9 +556,9 @@ Requirements:
 // Helper function to generate fallback names
 function generateFallbackName(index: number, surname: string, gender: string, planType: string): NameData {
   const fallbackGivenNames = {
-    male: ['志明', '建华', '伟强', '俊杰', '文昊', '雅昆'],
-    female: ['雅文', '美丽', '慧敏', '雨晴', '诗涵', '婉如'],
-    other: ['明智', '美好', '和谐', '光明', '希望', '未来']
+    male: ['蹇楁槑', '寤哄崕', '浼熷己', '淇婃澃', '鏂囨槉', '闆呮槅'],
+    female: ['闆呮枃', '缇庝附', '鎱ф晱', '闆ㄦ櫞', '璇楁兜', '濠夊'],
+    other: ['鏄庢櫤', '缇庡ソ', '鍜岃皭', '鍏夋槑', '甯屾湜', '鏈潵']
   };
 
   const genderKey = gender === 'male' ? 'male' : gender === 'female' ? 'female' : 'other';
@@ -566,18 +566,18 @@ function generateFallbackName(index: number, surname: string, gender: string, pl
   const selectedGivenName = givenNames[index % givenNames.length];
 
   const surnameMap: { [key: string]: string } = {
-    '王': 'Wáng', '李': 'Lǐ', '张': 'Zhāng', '刘': 'Liú', '陈': 'Chén',
-    '杨': 'Yáng', '赵': 'Zhào', '黄': 'Huáng', '周': 'Zhōu', '吴': 'Wú',
-    '徐': 'Xú', '孙': 'Sūn', '胡': 'Hú', '朱': 'Zhū', '高': 'Gāo',
-    '林': 'Lín', '何': 'Hé', '郭': 'Guō', '马': 'Mǎ', '罗': 'Luó',
-    '梁': 'Liáng', '宋': 'Sòng', '郑': 'Zhèng', '谢': 'Xiè', '韩': 'Hán',
-    '唐': 'Táng', '冯': 'Féng', '于': 'Yú', '董': 'Dǒng', '萧': 'Xiāo'
+    '鐜?: 'W谩ng', '鏉?: 'L菒', '寮?: 'Zh膩ng', '鍒?: 'Li煤', '闄?: 'Ch茅n',
+    '鏉?: 'Y谩ng', '璧?: 'Zh脿o', '榛?: 'Hu谩ng', '鍛?: 'Zh艒u', '鍚?: 'W煤',
+    '寰?: 'X煤', '瀛?: 'S奴n', '鑳?: 'H煤', '鏈?: 'Zh奴', '楂?: 'G膩o',
+    '鏋?: 'L铆n', '浣?: 'H茅', '閮?: 'Gu艒', '椹?: 'M菐', '缃?: 'Lu贸',
+    '姊?: 'Li谩ng', '瀹?: 'S貌ng', '閮?: 'Zh猫ng', '璋?: 'Xi猫', '闊?: 'H谩n',
+    '鍞?: 'T谩ng', '鍐?: 'F茅ng', '浜?: 'Y煤', '钁?: 'D菕ng', '钀?: 'Xi膩o'
   };
 
   const givenPinyinMap: { [key: string]: string } = {
-    '志明': 'Zhìmíng', '建华': 'Jiànhuá', '伟强': 'Wěiqiáng',
-    '雅文': 'Yǎwén', '美丽': 'Měilì', '慧敏': 'Huìmǐn',
-    '明智': 'Míngzhì', '美好': 'Měihǎo', '和谐': 'Héxié'
+    '蹇楁槑': 'Zh矛m铆ng', '寤哄崕': 'Ji脿nhu谩', '浼熷己': 'W臎iqi谩ng',
+    '闆呮枃': 'Y菐w茅n', '缇庝附': 'M臎il矛', '鎱ф晱': 'Hu矛m菒n',
+    '鏄庢櫤': 'M铆ngzh矛', '缇庡ソ': 'M臎ih菐o', '鍜岃皭': 'H茅xi茅'
   };
 
   const chinese = `${surname}${selectedGivenName}`;
@@ -587,25 +587,25 @@ function generateFallbackName(index: number, surname: string, gender: string, pl
 
   return {
     chinese,
-    pinyin: `${surnameMap[surname] || 'Wáng'} ${givenPinyinMap[selectedGivenName] || 'Míng'}`,
+    pinyin: `${surnameMap[surname] || 'W谩ng'} ${givenPinyinMap[selectedGivenName] || 'M铆ng'}`,
     characters: [
       {
         character: surnameChar,
-        pinyin: surnameMap[surname] || 'Wáng',
+        pinyin: surnameMap[surname] || 'W谩ng',
         meaning: "Family surname",
         explanation: "A traditional Chinese family name with historical significance."
       },
       {
         character: givenChar1,
-        pinyin: givenChar1 === '志' ? 'Zhì' : givenChar1 === '美' ? 'Měi' : 'Míng',
-        meaning: givenChar1 === '志' ? 'Ambition' : givenChar1 === '美' ? 'Beautiful' : 'Bright',
-        explanation: `Represents ${givenChar1 === '志' ? 'ambition and determination' : givenChar1 === '美' ? 'beauty and goodness' : 'brightness and wisdom'}`
+        pinyin: givenChar1 === '蹇? ? 'Zh矛' : givenChar1 === '缇? ? 'M臎i' : 'M铆ng',
+        meaning: givenChar1 === '蹇? ? 'Ambition' : givenChar1 === '缇? ? 'Beautiful' : 'Bright',
+        explanation: `Represents ${givenChar1 === '蹇? ? 'ambition and determination' : givenChar1 === '缇? ? 'beauty and goodness' : 'brightness and wisdom'}`
       },
       ...(givenChar2 ? [{
         character: givenChar2,
-        pinyin: givenChar2 === '明' ? 'Míng' : givenChar2 === '丽' ? 'Lì' : 'Hǎo',
-        meaning: givenChar2 === '明' ? 'Bright' : givenChar2 === '丽' ? 'Beautiful' : 'Good',
-        explanation: `Symbolizes ${givenChar2 === '明' ? 'intelligence and clarity' : givenChar2 === '丽' ? 'beauty and grace' : 'virtue and excellence'}`
+        pinyin: givenChar2 === '鏄? ? 'M铆ng' : givenChar2 === '涓? ? 'L矛' : 'H菐o',
+        meaning: givenChar2 === '鏄? ? 'Bright' : givenChar2 === '涓? ? 'Beautiful' : 'Good',
+        explanation: `Symbolizes ${givenChar2 === '鏄? ? 'intelligence and clarity' : givenChar2 === '涓? ? 'beauty and grace' : 'virtue and excellence'}`
       }] : [])
     ],
     meaning: `A ${planType === '4' ? 'premium' : 'standard'} Chinese name with positive meanings and cultural significance`,

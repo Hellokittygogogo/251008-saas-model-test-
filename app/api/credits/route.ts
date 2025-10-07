@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 
-// GET - 获取用户积分（使用统一的customers表）
+// GET - 鑾峰彇鐢ㄦ埛绉垎锛堜娇鐢ㄧ粺涓€鐨刢ustomers琛級
 export async function GET() {
   try {
     const supabase = await createClient();
     
-    // 获取当前用户
+    // 鑾峰彇褰撳墠鐢ㄦ埛
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     
     if (authError || !user) {
@@ -16,7 +16,7 @@ export async function GET() {
       );
     }
 
-    // 查询用户的customer记录
+    // 鏌ヨ鐢ㄦ埛鐨刢ustomer璁板綍
     const { data: customer, error } = await supabase
       .from('customers')
       .select(`
@@ -39,14 +39,13 @@ export async function GET() {
       );
     }
 
-    // 如果用户没有customer记录，创建一个默认记录
-    if (!customer) {
+    // 濡傛灉鐢ㄦ埛娌℃湁customer璁板綍锛屽垱寤轰竴涓粯璁よ褰?    if (!customer) {
       const { data: newCustomer, error: createError } = await supabase
         .from('customers')
         .insert({
           user_id: user.id,
           email: user.email || 'unknown@example.com',
-          credits: 3, // 新用户赠送3积分
+          credits: 3, // 鏂扮敤鎴疯禒閫?绉垎
           creem_customer_id: `new_user_${user.id}`,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
@@ -74,8 +73,7 @@ export async function GET() {
         );
       }
 
-      // 记录初始积分赠送
-      await supabase
+      // 璁板綍鍒濆绉垎璧犻€?      await supabase
         .from('credits_history')
         .insert({
           customer_id: newCustomer.id,
@@ -97,13 +95,11 @@ export async function GET() {
       });
     }
 
-    // 返回兼容的格式
-    return NextResponse.json({ 
+    // 杩斿洖鍏煎鐨勬牸寮?    return NextResponse.json({ 
       credits: {
         id: customer.id,
         user_id: customer.user_id,
-        total_credits: customer.credits, // 使用当前积分作为总积分
-        remaining_credits: customer.credits,
+        total_credits: customer.credits, // 浣跨敤褰撳墠绉垎浣滀负鎬荤Н鍒?        remaining_credits: customer.credits,
         created_at: customer.created_at,
         updated_at: customer.updated_at
       }
@@ -117,8 +113,8 @@ export async function GET() {
   }
 }
 
-// POST - 消费积分（使用统一的customers表）
-export async function POST(request: NextRequest) {
+// POST - 娑堣垂绉垎锛堜娇鐢ㄧ粺涓€鐨刢ustomers琛級
+export async function POST(request: Request) {
   try {
     const { amount, operation } = await request.json();
     
@@ -131,7 +127,7 @@ export async function POST(request: NextRequest) {
 
     const supabase = await createClient();
     
-    // 获取当前用户
+    // 鑾峰彇褰撳墠鐢ㄦ埛
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     
     if (authError || !user) {
@@ -141,7 +137,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 获取当前customer记录
+    // 鑾峰彇褰撳墠customer璁板綍
     const { data: customer, error: fetchError } = await supabase
       .from('customers')
       .select('*')
@@ -156,15 +152,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 检查积分是否足够
-    if (customer.credits < amount) {
+    // 妫€鏌ョН鍒嗘槸鍚﹁冻澶?    if (customer.credits < amount) {
       return NextResponse.json(
         { error: 'Insufficient credits' },
         { status: 400 }
       );
     }
 
-    // 更新积分
+    // 鏇存柊绉垎
     const newCredits = customer.credits - amount;
     const { data: updatedCustomer, error: updateError } = await supabase
       .from('customers')
@@ -184,7 +179,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 记录积分消费历史
+    // 璁板綍绉垎娑堣垂鍘嗗彶
     const { error: historyError } = await supabase
       .from('credits_history')
       .insert({
@@ -201,11 +196,9 @@ export async function POST(request: NextRequest) {
 
     if (historyError) {
       console.error('Error recording credit transaction:', historyError);
-      // 不影响主要流程，只记录错误
-    }
+      // 涓嶅奖鍝嶄富瑕佹祦绋嬶紝鍙褰曢敊璇?    }
 
-    // 返回兼容的格式
-    return NextResponse.json({ 
+    // 杩斿洖鍏煎鐨勬牸寮?    return NextResponse.json({ 
       credits: {
         id: updatedCustomer.id,
         user_id: updatedCustomer.user_id,
