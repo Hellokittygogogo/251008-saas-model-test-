@@ -176,12 +176,11 @@ export async function POST(request: Request) {
         }
       }
     }
-
-    // Common Chinese surnames
+    // Common Chinese surnames (UTF-8, safe subset)
     const commonSurnames = [
-      '鐜?, '鏉?, '寮?, '鍒?, '闄?, '鏉?, '璧?, '榛?, '鍛?, '鍚?,
-      '寰?, '瀛?, '鑳?, '鏈?, '楂?, '鏋?, '浣?, '閮?, '椹?, '缃?,
-      '姊?, '瀹?, '閮?, '璋?, '闊?, '鍞?, '鍐?, '浜?, '钁?, '钀?
+      "赵","钱","孙","李","周","吴","郑","王","冯","陈",
+      "褚","卫","蒋","沈","韩","杨","朱","秦","尤","许",
+      "何","吕","施","张","孔","曹","严","华","金","魏"
     ];
 
     const generatedNames = new Set<string>();
@@ -246,21 +245,11 @@ CREATIVITY REQUIREMENTS:
 
 Output only this JSON structure:
 {
-  "chinese": "濮撳悕",
-  "pinyin": "X矛ngm铆ng", 
+  "chinese": "姓名",
+  "pinyin": "Xingming",
   "characters": [
-    {
-      "character": "濮?,
-      "pinyin": "X矛ng",
-      "meaning": "Surname meaning",
-      "explanation": "Brief explanation"
-    },
-    {
-      "character": "鍚?,
-      "pinyin": "m铆ng", 
-      "meaning": "Given name meaning",
-      "explanation": "Brief explanation"
-    }
+    { "character": "姓", "pinyin": "Xing", "meaning": "Surname", "explanation": "Family name" },
+    { "character": "名", "pinyin": "Ming", "meaning": "Given name", "explanation": "Given name" }
   ],
   "meaning": "Overall name meaning",
   "culturalNotes": "Cultural significance",
@@ -566,13 +555,10 @@ function generateFallbackName(index: number, surname: string, gender: string, pl
   const selectedGivenName = givenNames[index % givenNames.length];
 
   const surnameMap: { [key: string]: string } = {
-    '鐜?: 'W谩ng', '鏉?: 'L菒', '寮?: 'Zh膩ng', '鍒?: 'Li煤', '闄?: 'Ch茅n',
-    '鏉?: 'Y谩ng', '璧?: 'Zh脿o', '榛?: 'Hu谩ng', '鍛?: 'Zh艒u', '鍚?: 'W煤',
-    '寰?: 'X煤', '瀛?: 'S奴n', '鑳?: 'H煤', '鏈?: 'Zh奴', '楂?: 'G膩o',
-    '鏋?: 'L铆n', '浣?: 'H茅', '閮?: 'Gu艒', '椹?: 'M菐', '缃?: 'Lu贸',
-    '姊?: 'Li谩ng', '瀹?: 'S貌ng', '閮?: 'Zh猫ng', '璋?: 'Xi猫', '闊?: 'H谩n',
-    '鍞?: 'T谩ng', '鍐?: 'F茅ng', '浜?: 'Y煤', '钁?: 'D菕ng', '钀?: 'Xi膩o'
-  };
+  "赵": "Zhào","钱": "Qián","孙": "Sūn","李": "Lǐ","周": "Zhōu","吴": "Wú","郑": "Zhèng","王": "Wáng","冯": "Féng","陈": "Chén",
+  "褚": "Chǔ","卫": "Wèi","蒋": "Jiǎng","沈": "Shěn","韩": "Hán","杨": "Yáng","朱": "Zhū","秦": "Qín","尤": "Yóu","许": "Xǔ",
+  "何": "Hé","吕": "Lǚ","施": "Shī","张": "Zhāng","孔": "Kǒng","曹": "Cáo","严": "Yán","华": "Huá","金": "Jīn","魏": "Wèi"
+};
 
   const givenPinyinMap: { [key: string]: string } = {
     '蹇楁槑': 'Zh矛m铆ng', '寤哄崕': 'Ji脿nhu谩', '浼熷己': 'W臎iqi谩ng',
@@ -614,3 +600,4 @@ function generateFallbackName(index: number, surname: string, gender: string, pl
     style: planType === '4' ? 'Premium' : 'Standard'
   };
 }
+
