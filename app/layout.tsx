@@ -1,9 +1,9 @@
-import Header from "@/components/header";
+﻿import Header from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { createClient } from "@/utils/supabase/server";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/toaster";`r`nimport ClientErrorBoundary from "@/components/client-error-boundary";
 import "./globals.css";
 
 const baseUrl = process.env.BASE_URL
@@ -54,7 +54,7 @@ export default async function RootLayout({
         >
           <div className="relative min-h-screen">
             <Header user={user} />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1"><ClientErrorBoundary>{children}</ClientErrorBoundary></main>
             <Footer />
           </div>
           <Toaster />
@@ -63,3 +63,4 @@ export default async function RootLayout({
     </html>
   );
 }
+
