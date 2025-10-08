@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -183,7 +183,7 @@ export default function Home() {
               className="space-y-6"
             >
               <div className="inline-flex items-center rounded-full px-3 py-1 text-sm bg-primary/10 text-primary mb-4">
-                <span className="mr-2">🇨🇳</span>
+                <span className="mr-2">馃嚚馃嚦</span>
                 AI-Powered Chinese Name Generation
               </div>
               
@@ -207,7 +207,7 @@ export default function Home() {
                   onClick={scrollToForm}
                   className="inline-flex items-center justify-center h-14 px-8 text-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-md transition-colors shadow-lg"
                 >
-                  {loading ? 'Loading...' : !user ? (hasTriedFree ? '🔒 Sign In for More' : '🎁 Generate Free Name') : '🎯 Generate Name'}
+                  {loading ? 'Loading...' : !user ? (hasTriedFree ? '馃敀 Sign In for More' : '馃巵 Generate Free Name') : '馃幆 Generate Name'}
                 </button>
                 <button
                   onClick={() => {
@@ -282,7 +282,7 @@ export default function Home() {
                       onClick={() => router.push('/profile')}
                       className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-primary hover:text-primary/80 transition-colors border border-primary/20 hover:border-primary/40 rounded-lg"
                     >
-                      👤 Profile - View History & Saved Names
+                      馃懁 Profile - View History & Saved Names
                     </button>
                   </motion.div>
                 )}
@@ -328,7 +328,7 @@ export default function Home() {
               >
                 <div className="space-y-4">
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                    <span className="text-2xl">🤖</span>
+                    <span className="text-2xl">馃</span>
                   </div>
                   <h3 className="text-xl font-bold text-foreground">AI-Powered Intelligence</h3>
                   <p className="text-muted-foreground">
@@ -345,7 +345,7 @@ export default function Home() {
               >
                 <div className="space-y-4">
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                    <span className="text-2xl">🏮</span>
+                    <span className="text-2xl">馃彯</span>
                   </div>
                   <h3 className="text-xl font-bold text-foreground">Cultural Authenticity</h3>
                   <p className="text-muted-foreground">
@@ -362,7 +362,7 @@ export default function Home() {
               >
                 <div className="space-y-4">
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                    <span className="text-2xl">⚡</span>
+                    <span className="text-2xl">鈿?/span>
                   </div>
                   <h3 className="text-xl font-bold text-foreground">Instant Generation</h3>
                   <p className="text-muted-foreground">
@@ -404,13 +404,13 @@ export default function Home() {
                   onClick={scrollToForm}
                   className="inline-flex items-center justify-center h-14 px-8 text-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-md transition-colors shadow-lg"
                 >
-                  {loading ? 'Loading...' : !user ? (hasTriedFree ? '🔒 Sign In for Unlimited Names' : '🎁 Get Your Free Chinese Name') : '🎯 Generate Chinese Name'}
+                  {loading ? 'Loading...' : !user ? (hasTriedFree ? '馃敀 Sign In for Unlimited Names' : '馃巵 Get Your Free Chinese Name') : '馃幆 Generate Chinese Name'}
                 </button>
                 <a 
                   href="#chinese-name-pricing"
                   className="inline-flex items-center justify-center h-14 px-8 text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  View Premium Features →
+                  View Premium Features 鈫?
                 </a>
               </div>
             </motion.div>
@@ -420,3 +420,4 @@ export default function Home() {
     </div>
   );
 }
+
