@@ -183,7 +183,7 @@ export default function Home() {
               className="space-y-6"
             >
               <div className="inline-flex items-center rounded-full px-3 py-1 text-sm bg-primary/10 text-primary mb-4">
-                <span className="mr-2">馃嚚馃嚦<{'\u26A1'}</span>
+                <span className="mr-2">{'\u26A1'}</span>
                 AI-Powered Chinese Name Generation
               </div>
               
@@ -420,6 +420,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
