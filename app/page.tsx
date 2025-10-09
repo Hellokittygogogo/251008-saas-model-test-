@@ -123,12 +123,12 @@ export default function Home() {
         isHistoryMode: false,
       };
       
-      try{ sessionStorage.setItem('nameGenerationResults', JSON.stringify(sessionData)); }catch(e){ console.warn('Failed to cache results', e);}
+      try{ try { sessionStorage.setItem('nameGenerationResults', JSON.stringify(sessionData)); } catch (e) { console.warn('Failed to cache results', e); } }catch(e){ console.warn('Failed to cache results', e);}
       
       // Mark free trial as used for non-authenticated users
       if (!user) {
         setHasTriedFree(true);
-        localStorage.setItem('hasTriedFreeGeneration', 'true');
+        try { localStorage.setItem('hasTriedFreeGeneration','true'); } catch(e) { }
       }
 
       // Save form data to localStorage for future use
@@ -420,6 +420,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 

@@ -43,18 +43,12 @@ const pricingTiers: PricingTier[] = [
   },
   {
     id: "credit-pack",
-    name: "Credit Pack",
-    price: "$5",
-    credits: 1000,
-    description: "Best value for regular users",
+    name: "Basic Credit Pack",
+    price: "$9.90",
+    credits: 3,
+    description: "3 credits for premium AI Chinese name generations.",
     features: [
-      "1000 credits included",
-      "Standard & Premium generation",
-      "Personality-based matching",
-      "Custom name preferences",
-      "Unlimited name variations",
-      "Save favorite names",
-      "Export to PDF"
+      "3 credits included",\n      "Standard & Premium generation",\n      "Saved collections",\n      "PDF export",\n      "Email support"
     ],
     icon: <Crown className="h-6 w-6" />,
     popular: true,
@@ -260,7 +254,7 @@ export default function ChineseNamePricing({ onScrollToForm }: ChineseNamePricin
                     {tier.id === "credit-pack" && (
                       <div className="text-center pt-2">
                         <p className="text-sm text-muted-foreground">
-                          Only $0.005 per credit 鈥?Amazing value!
+                          Includes 3 credits • Instant delivery after payment
                         </p>
                       </div>
                     )}
@@ -307,3 +301,4 @@ export default function ChineseNamePricing({ onScrollToForm }: ChineseNamePricin
     </section>
   );
 }
+
