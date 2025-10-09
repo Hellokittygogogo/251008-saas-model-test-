@@ -410,7 +410,7 @@ export default function Home() {
                   href="#chinese-name-pricing"
                   className="inline-flex items-center justify-center h-14 px-8 text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  View Premium Features 鈫?
+                  View Premium Features?
                 </a>
               </div>
             </motion.div>
@@ -420,6 +420,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
