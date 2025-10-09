@@ -48,7 +48,7 @@ export default function Home() {
   useEffect(() => {
     if (!loading) {
       if (!user) {
-        const hasUsedFree = localStorage.getItem('hasTriedFreeGeneration') === 'true';
+        let hasUsedFree=false; try{ hasUsedFree = localStorage.getItem('hasTriedFreeGeneration')==='true'; }catch(e){ hasUsedFree=false;}
         setHasTriedFree(hasUsedFree);
       } else {
         // Clear localStorage flag for authenticated users
@@ -123,7 +123,7 @@ export default function Home() {
         isHistoryMode: false,
       };
       
-      sessionStorage.setItem('nameGenerationResults', JSON.stringify(sessionData));
+      try{ sessionStorage.setItem('nameGenerationResults', JSON.stringify(sessionData)); }catch(e){ console.warn('Failed to cache results', e);}
       
       // Mark free trial as used for non-authenticated users
       if (!user) {
@@ -420,4 +420,6 @@ export default function Home() {
     </div>
   );
 }
+
+
 

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -260,7 +260,7 @@ export default function ChineseNamePricing({ onScrollToForm }: ChineseNamePricin
                     {tier.id === "credit-pack" && (
                       <div className="text-center pt-2">
                         <p className="text-sm text-muted-foreground">
-                          Only $0.005 per credit • Amazing value!
+                          Only $0.005 per credit 鈥?Amazing value!
                         </p>
                       </div>
                     )}

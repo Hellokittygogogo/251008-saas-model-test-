@@ -1,4 +1,4 @@
-import { ProductTier } from "@/types/subscriptions";
+﻿import { ProductTier } from "@/types/subscriptions";
 
 export const SUBSCRIPTION_TIERS: ProductTier[] = [
   {
@@ -21,7 +21,7 @@ export const SUBSCRIPTION_TIERS: ProductTier[] = [
   {
     name: "Business",
     id: "tier-pro",
-    productId: "prod_6rOJtTwlyjsH9AVuSzh8aR", // $29 monthly subscription (测试产品)
+    productId: "prod_6rOJtTwlyjsH9AVuSzh8aR", // $29 monthly subscription (娴嬭瘯浜у搧)
     priceMonthly: "$29",
     description: "Ideal for growing businesses and development teams.",
     features: [
@@ -33,7 +33,7 @@ export const SUBSCRIPTION_TIERS: ProductTier[] = [
       "API usage dashboard",
     ],
     featured: true,
-    discountCode: "", // Optional discount code - 临时移除
+    discountCode: "", // Optional discount code - 涓存椂绉婚櫎
   },
   {
     name: "Enterprise",
@@ -58,8 +58,8 @@ export const CREDITS_TIERS: ProductTier[] = [
   {
     name: "Basic Package",
     id: "tier-3-credits",
-    productId: "prod_MqcjVo0Bpx0rbYmHVlrh2", // $9 one-time purchase
-    priceMonthly: "$9",
+    productId: "prod_4MhfU5B9cKpRbhEDJnRghI", // $9 one-time purchase
+    priceMonthly: "\$9.90",
     description: "3 credits for testing and small-scale projects.",
     creditAmount: 3,
     features: [
@@ -104,3 +104,4 @@ export const CREDITS_TIERS: ProductTier[] = [
     discountCode: "", // Optional discount code
   },
 ];
+

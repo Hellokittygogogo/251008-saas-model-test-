@@ -44,7 +44,7 @@ export default async function RootLayout({
   } = await supabase.auth.getUser();
 
   return (
-    <html lang="en" className={geistSans.className} suppressHydrationWarning>
+    <html lang="en" className={geistSans.className} suppressHydrationWarning>\n      <head>\n        <meta name="google" content="notranslate" />\n      </head>
       <body className="bg-background text-foreground">
         <ThemeProvider
           attribute="class"
@@ -63,4 +63,5 @@ export default async function RootLayout({
     </html>
   );
 }
+
 
