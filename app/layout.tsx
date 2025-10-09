@@ -3,7 +3,8 @@ import { Footer } from "@/components/footer";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { createClient } from "@/utils/supabase/server";
-import { Toaster } from "@/components/ui/toaster";`r`nimport ClientErrorBoundary from "@/components/client-error-boundary";
+import { Toaster } from "@/components/ui/toaster";
+import ClientErrorBoundary from "@/components/client-error-boundary";
 import "./globals.css";
 
 const baseUrl = process.env.BASE_URL
@@ -63,6 +64,7 @@ export default async function RootLayout({
     </html>
   );
 }
+
 
 
 

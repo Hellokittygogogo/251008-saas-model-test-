@@ -328,7 +328,7 @@ export default function Home() {
               >
                 <div className="space-y-4">
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                    <span className="text-2xl">馃</span>
+                    <span className="text-2xl">{'\u26A1'}</span>
                   </div>
                   <h3 className="text-xl font-bold text-foreground">AI-Powered Intelligence</h3>
                   <p className="text-muted-foreground">
@@ -345,7 +345,7 @@ export default function Home() {
               >
                 <div className="space-y-4">
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                    <span className="text-2xl">馃彯</span>
+                    <span className="text-2xl">{'\u26A1'}</span>
                   </div>
                   <h3 className="text-xl font-bold text-foreground">Cultural Authenticity</h3>
                   <p className="text-muted-foreground">
@@ -420,6 +420,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
