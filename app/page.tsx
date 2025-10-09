@@ -183,14 +183,14 @@ export default function Home() {
               className="space-y-6"
             >
               <div className="inline-flex items-center rounded-full px-3 py-1 text-sm bg-primary/10 text-primary mb-4">
-                <span className="mr-2">馃嚚馃嚦</span>
+                <span className="mr-2">馃嚚馃嚦<{'\u26A1'}</span>
                 AI-Powered Chinese Name Generation
               </div>
               
               <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                 Discover Your Perfect
                 <br />
-                <span className="text-primary">Chinese Name</span>
+                <span className="text-primary">Chinese Name<{'\u26A1'}</span>
               </h1>
               
               <p className="mt-6 text-xl text-muted-foreground md:text-2xl max-w-3xl mx-auto">
@@ -226,15 +226,15 @@ export default function Home() {
                 className="flex items-center justify-center gap-8 pt-8 text-sm text-muted-foreground"
               >
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  <span className="w-2 h-2 bg-green-500 rounded-full"><{'\u26A1'}</span>
                   {loading ? 'Loading...' : !user ? '3 free names daily' : 'Unlimited generation'}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"><{'\u26A1'}</span>
                   Instant generation
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                  <span className="w-2 h-2 bg-purple-500 rounded-full"><{'\u26A1'}</span>
                   Cultural accuracy
                 </div>
               </motion.div>
@@ -362,7 +362,7 @@ export default function Home() {
               >
                 <div className="space-y-4">
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                    <span className="text-2xl">鈿?/span>
+                    <span className="text-2xl">{'\u26A1'}</span>
                   </div>
                   <h3 className="text-xl font-bold text-foreground">Instant Generation</h3>
                   <p className="text-muted-foreground">
@@ -420,6 +420,9 @@ export default function Home() {
     </div>
   );
 }
+
+
+
 
 
 
