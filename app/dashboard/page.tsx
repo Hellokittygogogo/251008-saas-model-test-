@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+﻿import { createClient } from "@/utils/supabase/server";
 import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { redirect } from "next/navigation";
 import { SubscriptionStatusCard } from "@/components/dashboard/subscription-status-card";
@@ -18,7 +18,7 @@ export default async function DashboardPage() {
     return redirect("/sign-in");
   }
 
-  // Get customer data including credits and subscription
+  // Get one subscription (if any) from the primary customer row
   const { data: customerData } = await supabase
     .from("customers")
     .select(
@@ -28,29 +28,40 @@ export default async function DashboardPage() {
         status,
         current_period_end,
         creem_product_id
-      ),
-      credits_history (
-        amount,
-        type,
-        created_at
       )
     `
     )
     .eq("user_id", user.id)
+    .limit(1)
     .single();
 
   const subscription = customerData?.subscriptions?.[0];
-  const creditsHistoryAll = customerData?.credits_history || [];
+
+  // Aggregate credits across ALL customer rows of this user to avoid mismatch
+  const { data: history } = await supabase
+    .from("credits_history")
+    .select(`amount, type, created_at, customers!inner(user_id)`) // join for user filter
+    .eq("customers.user_id", user.id)
+    .order("created_at", { ascending: false });
+
+  const creditsHistoryAll = history || [];
   const recentCreditsHistory = creditsHistoryAll.slice(0, 2);
-  const computedCredits = creditsHistoryAll.reduce((sum: number, h: any) => sum + (h.type === "add" ? h.amount : -h.amount), 0);
-  const dbCredits = customerData?.credits ?? 0;
+
+  const computedCredits = creditsHistoryAll.reduce((sum: number, h: any) => {
+    const n = Math.abs(Number(h.amount) || 0);
+    return sum + (h.type === "add" ? n : -n);
+  }, 0);
+
+  // Best-effort: write back to all customer rows for this user to keep DB consistent
+  try {
+    const service = createServiceRoleClient();
+    await service
+      .from("customers")
+      .update({ credits: computedCredits, updated_at: new Date().toISOString() })
+      .eq("user_id", user.id);
+  } catch {}
+
   const credits = computedCredits;
-  if (customerData?.id && dbCredits !== computedCredits) {
-    try {
-      const s = createServiceRoleClient();
-      await s.from("customers").update({ credits: computedCredits, updated_at: new Date().toISOString() }).eq("id", customerData.id);
-    } catch {}
-  }
 
   return (
     <div className="flex-1 w-full flex flex-col gap-6 sm:gap-8 px-4 sm:px-8 container">
@@ -70,7 +81,7 @@ export default async function DashboardPage() {
         <SubscriptionStatusCard subscription={subscription} />
         <CreditsBalanceCard
           credits={credits}
-          recentHistory={recentCreditsHistory}
+          recentHistory={recentCreditsHistory as any}
         />
         <QuickActionsCard />
       </div>
