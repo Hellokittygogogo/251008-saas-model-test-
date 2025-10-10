@@ -48,7 +48,11 @@ const pricingTiers: PricingTier[] = [
     credits: 3,
     description: "3 credits for premium AI Chinese name generations.",
     features: [
-      "3 credits included",\n      "Standard & Premium generation",\n      "Saved collections",\n      "PDF export",\n      "Email support"
+      "3 credits included",
+      "Standard & Premium generation",
+      "Saved collections",
+      "PDF export",
+      "Email support"
     ],
     icon: <Crown className="h-6 w-6" />,
     popular: true,

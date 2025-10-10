@@ -190,7 +190,7 @@ export default function Home() {
               <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                 Discover Your Perfect
                 <br />
-                <span className="text-primary">Chinese Name<{'\u26A1'}</span>
+                <span className="text-primary">Chinese Name ⚡</span>
               </h1>
               
               <p className="mt-6 text-xl text-muted-foreground md:text-2xl max-w-3xl mx-auto">
@@ -226,15 +226,15 @@ export default function Home() {
                 className="flex items-center justify-center gap-8 pt-8 text-sm text-muted-foreground"
               >
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-500 rounded-full"><{'\u26A1'}</span>
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                   {loading ? 'Loading...' : !user ? '3 free names daily' : 'Unlimited generation'}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full"><{'\u26A1'}</span>
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
                   Instant generation
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-purple-500 rounded-full"><{'\u26A1'}</span>
+                  <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
                   Cultural accuracy
                 </div>
               </motion.div>

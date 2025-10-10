@@ -1,65 +1,70 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase/server';
+﻿import { NextResponse } from "next/server";
+import { createClient } from "@/utils/supabase/server";
 
-// POST /api/creem/create-checkout
-// body: { productType: 'credits'|'subscription'|'chinese-name-credits', productId?: string, credits?: number, userId?: string, discountCode?: string }
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const body = await req.json();
-    const productType: string = body.productType || 'credits';
-    const overrideProductId: string | undefined = body.productId;
-    const credits: number | undefined = body.credits;
-
-    const CREEM_API_URL = process.env.CREEM_API_URL;
-    const CREEM_API_KEY = process.env.CREEM_API_KEY;
-    const SUCCESS_URL = process.env.CREEM_SUCCESS_URL;
-
-    if (!CREEM_API_URL || !CREEM_API_KEY) {
-      return NextResponse.json({ error: 'Creem is not configured' }, { status: 500 });
-    }
-
-    // Get user context (email) for a better checkout experience
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
 
-    const product_id = overrideProductId || process.env.DEFAULT_CREEM_PRODUCT_ID || undefined;
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-    if (!product_id) {
-      return NextResponse.json({ error: 'productId is required' }, { status: 400 });
+    if (authError || !user) {
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const reqBody: any = {
-      product_id,
-      customer: user?.email ? { email: user.email } : undefined,
+    const body = await request.json().catch(() => ({}));
+
+    const productIdFromBody: string | undefined = body.productId;
+    const creditsFromBody: number | undefined = body.credits_amount;
+
+    const productId =
+      productIdFromBody ||
+      process.env.CREEM_PRODUCT_ID_CREDITS ||
+      "prod_4MhfU5B9cKpRbhEDJnRghI"; // fallback for quick testing
+
+    const credits = typeof creditsFromBody === "number" && creditsFromBody > 0 ? creditsFromBody : 3;
+
+    const payload: any = {
+      product_id: productId,
+      customer: {
+        email: user.email!,
+      },
       metadata: {
-        user_id: user?.id || body.userId || 'guest',
-        product_type: productType,
-        credits: credits || 0,
+        user_id: user.id,
+        product_type: "credits",
+        credits,
       },
     };
 
-    if (SUCCESS_URL) reqBody.success_url = SUCCESS_URL;
-    if (body.discountCode) reqBody.discount_code = body.discountCode;
-
-    const res = await fetch(`${CREEM_API_URL}/checkouts`, {
-      method: 'POST',
-      headers: {
-        'x-api-key': CREEM_API_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(reqBody),
-    });
-
-    if (!res.ok) {
-      const txt = await res.text();
-      console.error('Creem checkout error', res.status, txt);
-      return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 502 });
+    if (process.env.CREEM_SUCCESS_URL) {
+      payload.success_url = process.env.CREEM_SUCCESS_URL;
     }
 
-    const data = await res.json();
-    return NextResponse.json({ checkoutUrl: data.checkout_url });
-  } catch (e: any) {
-    console.error('Create checkout exception', e);
-    return NextResponse.json({ error: e?.message || 'server error' }, { status: 500 });
+    const apiUrl = (process.env.CREEM_API_URL || "https://test-api.creem.io/v1").replace(/\/$/, "");
+
+    const resp = await fetch(`${apiUrl}/checkouts`, {
+      method: "POST",
+      headers: {
+        "x-api-key": process.env.CREEM_API_KEY!,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+      cache: "no-store",
+    });
+
+    if (!resp.ok) {
+      const text = await resp.text();
+      console.error("Creem create checkout failed:", resp.status, text);
+      return NextResponse.json({ error: "Failed to create checkout" }, { status: 500 });
+    }
+
+    const data = await resp.json();
+    const checkoutUrl = data.checkout_url || data.url || data.checkoutUrl;
+    return NextResponse.json({ checkoutUrl });
+  } catch (error) {
+    console.error("create-checkout error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
