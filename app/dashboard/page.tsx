@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { redirect } from "next/navigation";
 import { SubscriptionStatusCard } from "@/components/dashboard/subscription-status-card";
 import { CreditsBalanceCard } from "@/components/dashboard/credits-balance-card";
@@ -39,8 +40,17 @@ export default async function DashboardPage() {
     .single();
 
   const subscription = customerData?.subscriptions?.[0];
-  const credits = customerData?.credits || 0;
-  const recentCreditsHistory = customerData?.credits_history?.slice(0, 2) || [];
+  const creditsHistoryAll = customerData?.credits_history || [];
+  const recentCreditsHistory = creditsHistoryAll.slice(0, 2);
+  const computedCredits = creditsHistoryAll.reduce((sum: number, h: any) => sum + (h.type === "add" ? h.amount : -h.amount), 0);
+  const dbCredits = customerData?.credits ?? 0;
+  const credits = computedCredits;
+  if (customerData?.id && dbCredits !== computedCredits) {
+    try {
+      const s = createServiceRoleClient();
+      await s.from("customers").update({ credits: computedCredits, updated_at: new Date().toISOString() }).eq("id", customerData.id);
+    } catch {}
+  }
 
   return (
     <div className="flex-1 w-full flex flex-col gap-6 sm:gap-8 px-4 sm:px-8 container">
