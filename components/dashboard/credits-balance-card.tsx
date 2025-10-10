@@ -1,5 +1,6 @@
-"use client";
+﻿"use client";
 
+import { useEffect, useState } from "react";
 import { Coins } from "lucide-react";
 import { CreditTransaction } from "@/types/creem";
 
@@ -12,6 +13,30 @@ export function CreditsBalanceCard({
   credits,
   recentHistory,
 }: CreditsBalanceCardProps) {
+  const [shownCredits, setShownCredits] = useState<number>(credits);
+  const [reconciled, setReconciled] = useState<boolean>(false);
+
+  // Best‑effort reconcile on mount to correct any stale stored balance
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const resp = await fetch("/api/credits/reconcile", { method: "POST" });
+        if (!resp.ok) return;
+        const data = await resp.json().catch(() => ({}));
+        if (!cancelled && typeof data?.computed === "number") {
+          if (data.computed !== credits) {
+            setShownCredits(data.computed);
+            setReconciled(true);
+          }
+        }
+      } catch {}
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [credits]);
+
   return (
     <div className="rounded-xl border bg-card p-6">
       <div className="flex items-center gap-4">
@@ -20,7 +45,10 @@ export function CreditsBalanceCard({
         </div>
         <div>
           <p className="text-sm text-muted-foreground">Available Credits</p>
-          <h3 className="text-2xl font-bold mt-1">{credits}</h3>
+          <h3 className="text-2xl font-bold mt-1">{shownCredits}</h3>
+          {reconciled && (
+            <p className="text-xs text-muted-foreground mt-1">Synced from history</p>
+          )}
         </div>
       </div>
       <div className="mt-4 space-y-2">
